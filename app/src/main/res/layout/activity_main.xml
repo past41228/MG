@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/bg"
+        android:src="@drawable/bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitCenter"
+    />
+
+    <cz.sp.mg.BlocksView
+        android:id="@+id/blocks"
+        android:minWidth="270dp"
+        android:minHeight="490dp"
+        android:layout_width="270dp"
+        android:layout_height="490dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.17"
+    />
+
+    <ImageView
+        android:id="@+id/leftButton"
+        android:src="@drawable/button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.145"
+        app:layout_constraintVertical_bias="0.83"
+    />
+
+    <ImageView
+        android:id="@+id/rightButton"
+        android:src="@drawable/button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginLeft="55dp"
+        app:layout_constraintLeft_toRightOf="@+id/leftButton"
+        app:layout_constraintTop_toTopOf="@+id/leftButton"
+    />  <!-- marginStart just to better support right-to-left layouts -->
+
+    <ImageView
+        android:id="@+id/downButton"
+        android:src="@drawable/button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:layout_constraintLeft_toRightOf="@+id/leftButton"
+        app:layout_constraintTop_toBottomOf="@+id/leftButton"
+    />
+
+    <ImageView
+        android:id="@+id/upButton"
+        android:src="@drawable/button"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        app:layout_constraintLeft_toRightOf="@+id/leftButton"
+        app:layout_constraintBottom_toTopOf="@+id/leftButton"
+    />
+
+    <ImageView
+        android:id="@+id/rotateButton"
+        android:src="@drawable/button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="260dp"
+        android:layout_marginLeft="260dp"
+        android:layout_marginTop="1dp"
+        app:layout_constraintLeft_toRightOf="@+id/upButton"
+        app:layout_constraintTop_toTopOf="@+id/upButton"
+    />  <!-- marginStart just to better support right-to-left layouts -->
+
+    <ImageView
+        android:id="@+id/modeButton"
+        android:src="@drawable/button"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintRight_toLeftOf="@+id/rotateButton"
+        app:layout_constraintTop_toBottomOf="@+id/rotateButton"
+    />  <!-- marginEnd just to better support right-to-left layouts -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
