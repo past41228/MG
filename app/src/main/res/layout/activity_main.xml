@@ -16,8 +16,6 @@
 
     <cz.sp.mg.BlocksView
         android:id="@+id/blocks"
-        android:minWidth="270dp"
-        android:minHeight="490dp"
         android:layout_width="270dp"
         android:layout_height="490dp"
         app:layout_constraintLeft_toLeftOf="parent"

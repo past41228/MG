@@ -15,48 +15,38 @@ import java.util.List;
 
 public class BlocksView extends SurfaceView implements Runnable {
 
-    public static final Long DEFAULT_SPEED = 1000L;
-    public static final Integer STEP = 32;
-    public static final Integer ROWS_COUNT = 15;
-    public static final Integer COLS_COUNT = 6;
+    private static final Integer DEFAULT_SPEED = 1;
+    private static final Integer STEP = 32;
+    private static final Integer FPS = 20;
+    private static final Integer ROWS_COUNT = 15;
+    private static final Integer COLS_COUNT = 8;
 
     private Thread thread;
     private Boolean running;
-    private Long speed;
+    private Integer currentSpeed;
+    private Integer levelSpeed;
     private Bitmap block;
     private Paint paint;
     private List<List<Boolean>> grid;
-    Block ctrl;
-    List<Boolean> movingLine;
+    private Block ctrl;
 
     public BlocksView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.speed = DEFAULT_SPEED;
+        this.levelSpeed = DEFAULT_SPEED;
+        this.currentSpeed = levelSpeed;
         this.block = BitmapFactory.decodeResource(getResources(), R.drawable.block);
         this.block = Bitmap.createScaledBitmap(block, STEP - 2, STEP - 2,false);
         this.paint = new Paint();
 
         this.grid = new ArrayList<>(ROWS_COUNT);
-        for (int i = 0; i < ROWS_COUNT; i++) {
+        for (int y = 0; y < ROWS_COUNT; y++) {
             ArrayList<Boolean> columns = new ArrayList<>(COLS_COUNT);
-            for (int j = 0; j < COLS_COUNT; j++) {
+            for (int x = 0; x < COLS_COUNT; x++) {
                 columns.add(Boolean.FALSE);
             }
             grid.add(columns);
         }
         this.ctrl = new Block();
-    }
-
-    public Boolean getRunning() {
-        return running;
-    }
-
-    public Long getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(Long speed) {
-        this.speed = speed;
     }
 
     private void moveHorizontally(int i) {
@@ -65,48 +55,52 @@ public class BlocksView extends SurfaceView implements Runnable {
         grid.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
     }
 
-    private boolean isFree(int i) {
+    private boolean isColFree(int i) {
         return !grid.get(ctrl.getRow()).get(ctrl.getCol() + i);
     }
 
     public void moveLeft() {
-        if (ctrl.getCol() > 0 && isFree(-1)) {
+        if (ctrl.getCol() > 0 && isColFree(-1)) {
             moveHorizontally(- 1);
         }
     }
 
     public void moveRight() {
-        if (ctrl.getCol() < (COLS_COUNT - 1) && isFree(+1)) {
+        if (ctrl.getCol() < (COLS_COUNT - 1) && isColFree(+1)) {
             moveHorizontally(+1);
         }
     }
 
-    @Override
-    public void run() {
-        while (running) {
-            draw();
-            moveDown();
-        }
+    public void speedUp() {
+        currentSpeed *= 10;
+    }
+
+    public void slowDown() {
+        currentSpeed = levelSpeed;
     }
 
     private void draw() {
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            for (int i = 0; i < grid.size(); i++) {
-                List<Boolean> line = grid.get(i);
-                for (int j = 0; j < line.size(); j++) {
-                    Boolean column = line.get(j);
-                    if (column) {
-                        canvas.drawBitmap(block, j * STEP, i * STEP, paint);
+            for (int y = 0; y < grid.size(); y++) {
+                List<Boolean> row = grid.get(y);
+                for (int x = 0; x < row.size(); x++) {
+                    if (row.get(x)) {
+                        canvas.drawBitmap(block, x * STEP, y * STEP, paint);
                     }
                 }
             }
             getHolder().unlockCanvasAndPost(canvas);
         }
+        try {
+            Thread.sleep(1000 / FPS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
-    private void moveDown() {
+    private void fall() {
         if (ctrl.getRow() < (ROWS_COUNT - 1) && !grid.get(ctrl.getRow() + 1).get(ctrl.getCol())) {
             grid.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.FALSE);
             ctrl.setRow(ctrl.getRow() + 1);
@@ -114,17 +108,22 @@ public class BlocksView extends SurfaceView implements Runnable {
         } else {
             ctrl = new Block();
         }
-        try {
-            Thread.sleep(speed);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+    }
+
+    @Override
+    public void run() {
+        Integer counter = 0;
+        while (running) {
+            draw();
+            if (++counter > (FPS / currentSpeed)) {
+                fall();
+                counter = 0;
+            }
         }
     }
 
-    public void resume() {
-        running = Boolean.TRUE;
-        thread = new Thread(this);
-        thread.start();
+    public Boolean isRunning() {
+        return running;
     }
 
     public void pause() {
@@ -134,5 +133,11 @@ public class BlocksView extends SurfaceView implements Runnable {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void resume() {
+        running = Boolean.TRUE;
+        thread = new Thread(this);
+        thread.start();
     }
 }
