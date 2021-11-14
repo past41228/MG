@@ -8,19 +8,19 @@ public class BlocksGrid {
     private static final Integer ROWS_COUNT = 15;
     private static final Integer COLS_COUNT = 8;
 
-    private final List<List<Boolean>> cells;
     private Block ctrl;
+    private final List<List<Boolean>> cells;
 
     public BlocksGrid() {
+        this.ctrl = new Block();
         this.cells = new ArrayList<>(ROWS_COUNT);
         for (int y = 0; y < ROWS_COUNT; y++) {
             final ArrayList<Boolean> cols = new ArrayList<>(COLS_COUNT);
             for (int x = 0; x < COLS_COUNT; x++) {
-                cols.add(Boolean.FALSE);
+                cols.add(ctrl.getCol().equals(x) && ctrl.getRow().equals(y));
             }
             cells.add(cols);
         }
-        this.ctrl = new Block();
 
     }
 
