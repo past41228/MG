@@ -18,6 +18,7 @@ public class BlocksView extends SurfaceView implements Runnable {
     private static final String LOG_TAG = BlocksView.class.getSimpleName();
 
     private static final Integer DEFAULT_SPEED = 1;
+    private static final Integer SPEED_MULTIPLIER = 10;
     private static final Integer STEP = 32;
     private static final Integer FPS = 20;
 
@@ -28,8 +29,9 @@ public class BlocksView extends SurfaceView implements Runnable {
     private Thread thread;
     private Boolean running;
 
-    private Integer currentSpeed;
     private Integer levelSpeed;
+    private Integer fallSpeed;
+    private Integer moveSpeed;
 
     private Bitmap block;
     private Paint paint;
@@ -38,9 +40,7 @@ public class BlocksView extends SurfaceView implements Runnable {
 
     public BlocksView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.levelSpeed = DEFAULT_SPEED;
-        this.currentSpeed = levelSpeed;
-
+        setLevelSpeed(DEFAULT_SPEED);
         this.block = BitmapFactory.decodeResource(getResources(), R.drawable.block);
         this.block = Bitmap.createScaledBitmap(block, BLOCK_SIZE, BLOCK_SIZE,false);
         this.paint = new Paint();
@@ -49,7 +49,8 @@ public class BlocksView extends SurfaceView implements Runnable {
 
     public void setLevelSpeed(Integer levelSpeed) {
         this.levelSpeed = levelSpeed;
-        this.currentSpeed = levelSpeed;
+        this.fallSpeed = levelSpeed;
+        this.moveSpeed = levelSpeed * SPEED_MULTIPLIER;
     }
 
     public void moveLeft() {
@@ -60,12 +61,16 @@ public class BlocksView extends SurfaceView implements Runnable {
         grid.moveRight();
     }
 
+    public void justFall() {
+        grid.justFall();
+    }
+
     public void speedUp() {
-        currentSpeed *= 10;
+        fallSpeed *= SPEED_MULTIPLIER;
     }
 
     public void slowDown() {
-        currentSpeed = levelSpeed;
+        fallSpeed = levelSpeed;
     }
 
 
@@ -92,12 +97,17 @@ public class BlocksView extends SurfaceView implements Runnable {
 
     @Override
     public void run() {
-        int counter = 0;
+        int fallDelay = 0;
+        int moveDelay = 0;
         while (running) {
             draw();
-            if (++counter > (FPS / currentSpeed)) {
+            if (++fallDelay > (FPS / fallSpeed)) {
                 grid.fall();
-                counter = 0;
+                fallDelay = 0;
+            }
+            if (++moveDelay > (FPS / moveSpeed)) {
+                grid.move();
+                moveDelay = 0;
             }
         }
     }

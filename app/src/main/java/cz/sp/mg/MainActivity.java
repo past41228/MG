@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
@@ -19,33 +18,53 @@ public class MainActivity extends AppCompatActivity {
         this.blocks = findViewById(R.id.blocks);
 
 
-        findViewById(R.id.leftButton).setOnClickListener((View v) -> {
-            if (blocks.isRunning()) blocks.moveLeft();
+        findViewById(R.id.leftButton).setOnTouchListener(new HoldButtonListener() {
+            @Override
+            protected Boolean performAction() {
+                return blocks.isRunning();
+            }
+            @Override
+            protected void onPress() {
+                blocks.moveLeft();
+            }
+            @Override
+            protected void onRelease() {
+                blocks.justFall();
+            }
         });
-        findViewById(R.id.rightButton).setOnClickListener((View v) -> {
-            if (blocks.isRunning()) blocks.moveRight();
+        findViewById(R.id.rightButton).setOnTouchListener(new HoldButtonListener() {
+            @Override
+            protected Boolean performAction() {
+                return blocks.isRunning();
+            }
+            @Override
+            protected void onPress() {
+                blocks.moveRight();
+            }
+            @Override
+            protected void onRelease() {
+                blocks.justFall();
+            }
+        });
+        findViewById(R.id.downButton).setOnTouchListener(new HoldButtonListener() {
+            @Override
+            protected Boolean performAction() {
+                return blocks.isRunning();
+            }
+            @Override
+            protected void onPress() {
+                blocks.speedUp();
+            }
+            @Override
+            protected void onRelease() {
+                blocks.slowDown();
+            }
         });
         findViewById(R.id.upButton).setOnClickListener((View v) -> {
             if (blocks.isRunning()) {
                 blocks.pause();
             } else {
                 blocks.resume();
-            }
-        });
-        findViewById(R.id.downButton).setOnTouchListener((View v, MotionEvent event) -> {
-            if (!blocks.isRunning()) {
-                return false;
-            }
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    blocks.speedUp();
-                    return true;
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    blocks.slowDown();
-                    return true;
-                default:
-                    return false;
             }
         });
     }

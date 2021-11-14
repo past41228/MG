@@ -9,6 +9,7 @@ public class BlocksGrid {
     private static final Integer COLS_COUNT = 8;
 
     private Block ctrl;
+    private Boolean moveLeft;
     private final List<List<Boolean>> cells;
 
     public BlocksGrid() {
@@ -38,15 +39,38 @@ public class BlocksGrid {
         return !cells.get(ctrl.getRow()).get(ctrl.getCol() + (onLeft ? -1 : +1));
     }
 
-    public void moveLeft() {
+    private void stepLeft() {
         if (ctrl.getCol() > 0 && isColFree(Boolean.TRUE)) {
             moveHorizontally(Boolean.TRUE);
         }
     }
 
-    public void moveRight() {
+    private void stepRight() {
         if (ctrl.getCol() < (COLS_COUNT - 1) && isColFree(Boolean.FALSE)) {
             moveHorizontally(Boolean.FALSE);
+        }
+    }
+
+    public void moveLeft() {
+        moveLeft = Boolean.TRUE;
+    }
+
+    public void moveRight() {
+        moveLeft = Boolean.FALSE;
+    }
+
+    public void justFall() {
+        moveLeft = null;
+    }
+
+    public void move() {
+        if (moveLeft == null) {
+            return;
+        }
+        if (moveLeft) {
+            stepLeft();
+        } else {
+            stepRight();
         }
     }
 
