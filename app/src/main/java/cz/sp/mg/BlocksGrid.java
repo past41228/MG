@@ -57,6 +57,7 @@ public class BlocksGrid {
             cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
         } else {
             ctrl = new Block();
+            cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
         }
     }
 }
