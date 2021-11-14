@@ -6,8 +6,7 @@ public class Block {
     private Integer col;
 
     Block() {
-        this.row = 0;
-        this.col = 2;
+        this(0, 2);
     }
 
     Block(Integer row, Integer col) {

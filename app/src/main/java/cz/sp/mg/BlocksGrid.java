@@ -1,0 +1,62 @@
+package cz.sp.mg;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BlocksGrid {
+
+    private static final Integer ROWS_COUNT = 15;
+    private static final Integer COLS_COUNT = 8;
+
+    private final List<List<Boolean>> cells;
+    private Block ctrl;
+
+    public BlocksGrid() {
+        this.cells = new ArrayList<>(ROWS_COUNT);
+        for (int y = 0; y < ROWS_COUNT; y++) {
+            final ArrayList<Boolean> cols = new ArrayList<>(COLS_COUNT);
+            for (int x = 0; x < COLS_COUNT; x++) {
+                cols.add(Boolean.FALSE);
+            }
+            cells.add(cols);
+        }
+        this.ctrl = new Block();
+
+    }
+
+    public List<List<Boolean>> getCells() {
+        return cells;
+    }
+
+    private void moveHorizontally(Boolean toLeft) {
+        cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.FALSE);
+        ctrl.setCol(ctrl.getCol() + (toLeft ? -1 : +1));
+        cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
+    }
+
+    private boolean isColFree(Boolean onLeft) {
+        return !cells.get(ctrl.getRow()).get(ctrl.getCol() + (onLeft ? -1 : +1));
+    }
+
+    public void moveLeft() {
+        if (ctrl.getCol() > 0 && isColFree(Boolean.TRUE)) {
+            moveHorizontally(Boolean.TRUE);
+        }
+    }
+
+    public void moveRight() {
+        if (ctrl.getCol() < (COLS_COUNT - 1) && isColFree(Boolean.FALSE)) {
+            moveHorizontally(Boolean.FALSE);
+        }
+    }
+
+    public void fall() {
+        if (ctrl.getRow() < (ROWS_COUNT - 1) && !cells.get(ctrl.getRow() + 1).get(ctrl.getCol())) {
+            cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.FALSE);
+            ctrl.setRow(ctrl.getRow() + 1);
+            cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
+        } else {
+            ctrl = new Block();
+        }
+    }
+}
