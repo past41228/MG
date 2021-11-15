@@ -34,8 +34,8 @@ public class BlocksView extends SurfaceView implements Runnable {
     private Integer moveSpeed;
 
     private Bitmap block;
-    private Paint paint;
-    private BlocksGrid grid;
+    private final Paint paint;
+    private final BlocksGrid grid;
 
 
     public BlocksView(Context context, AttributeSet attrs) {
@@ -61,8 +61,8 @@ public class BlocksView extends SurfaceView implements Runnable {
         grid.moveRight();
     }
 
-    public void justFall() {
-        grid.justFall();
+    public void fallOnly() {
+        grid.fallOnly();
     }
 
     public void speedUp() {

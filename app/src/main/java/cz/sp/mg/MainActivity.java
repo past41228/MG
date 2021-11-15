@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             protected void onRelease() {
-                blocks.justFall();
+                blocks.fallOnly();
             }
         });
         findViewById(R.id.rightButton).setOnTouchListener(new HoldButtonListener() {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             protected void onRelease() {
-                blocks.justFall();
+                blocks.fallOnly();
             }
         });
         findViewById(R.id.downButton).setOnTouchListener(new HoldButtonListener() {

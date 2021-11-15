@@ -8,9 +8,9 @@ public class BlocksGrid {
     private static final Integer ROWS_COUNT = 15;
     private static final Integer COLS_COUNT = 8;
 
-    private Block ctrl;
-    private Boolean moveLeft;
+    private final Block ctrl;
     private final List<List<Boolean>> cells;
+    private Boolean moveLeft;
 
     public BlocksGrid() {
         this.ctrl = new Block();
@@ -22,7 +22,6 @@ public class BlocksGrid {
             }
             cells.add(cols);
         }
-
     }
 
     public List<List<Boolean>> getCells() {
@@ -59,7 +58,7 @@ public class BlocksGrid {
         moveLeft = Boolean.FALSE;
     }
 
-    public void justFall() {
+    public void fallOnly() {
         moveLeft = null;
     }
 
@@ -78,10 +77,9 @@ public class BlocksGrid {
         if (ctrl.getRow() < (ROWS_COUNT - 1) && !cells.get(ctrl.getRow() + 1).get(ctrl.getCol())) {
             cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.FALSE);
             ctrl.setRow(ctrl.getRow() + 1);
-            cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
         } else {
-            ctrl = new Block();
-            cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
+            ctrl.setStartPosition();
         }
+        cells.get(ctrl.getRow()).set(ctrl.getCol(), Boolean.TRUE);
     }
 }
