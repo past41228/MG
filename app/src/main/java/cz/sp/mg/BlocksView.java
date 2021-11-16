@@ -78,10 +78,10 @@ public class BlocksView extends SurfaceView implements Runnable {
         if (getHolder().getSurface().isValid()) {
             final Canvas canvas = getHolder().lockCanvas();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            for (int y = 0; y < grid.getCells().size(); y++) {
-                final List<Boolean> row = grid.getCells().get(y);
-                for (int x = 0; x < row.size(); x++) {
-                    if (row.get(x)) {
+            Boolean[][] cells = grid.getCells();
+            for (int y = 0; y < cells.length; y++) {
+                for (int x = 0; x < cells[y].length; x++) {
+                    if (cells[y][x]) {
                         canvas.drawBitmap(block, x * STEP + OFFSET, y * STEP + OFFSET, paint);
                     }
                 }

@@ -1,7 +1,6 @@
 package cz.sp.mg;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 import java.util.Random;
 
 import cz.sp.mg.blocks.Block;
@@ -20,34 +19,31 @@ public class BlocksGrid {
 
     private Block ctrl;
     private final Random random;
-    private final List<Block> blocks;
-    private final List<List<Boolean>> cells;
+    private final Block[] blocks;
+    private final Boolean[][] cells;
     private Boolean moveLeft;
 
     public BlocksGrid() {
-        this.blocks = new ArrayList<>();
-        this.blocks.add(new LineBlock(3));
-        this.blocks.add(new TBlock());
-        this.blocks.add(new LBlock());
-        this.blocks.add(new MirrorLBlock());
-        this.blocks.add(new ZBlock());
-        this.blocks.add(new SBlock());
-        this.blocks.add(new SquareBlock());
+        this.blocks = new Block[] {
+                new LineBlock(3),
+                new TBlock(),
+                new LBlock(),
+                new MirrorLBlock(),
+                new ZBlock(),
+                new SBlock(),
+                new SquareBlock()
+        };
         this.random = new Random();
-        this.ctrl = blocks.get(random.nextInt(blocks.size()));
+        this.ctrl = blocks[random.nextInt(blocks.length)];
 
-        this.cells = new ArrayList<>(ROWS_COUNT);
-        for (int y = 0; y < ROWS_COUNT; y++) {
-            final List<Boolean> cols = new ArrayList<>(COLS_COUNT);
-            for (int x = 0; x < COLS_COUNT; x++) {
-                cols.add(Boolean.FALSE);
-            }
-            cells.add(cols);
+        this.cells = new Boolean[ROWS_COUNT][COLS_COUNT];
+        for (Boolean[] row : this.cells) {
+            Arrays.fill(row, Boolean.FALSE);
         }
         placeBlock(Boolean.TRUE);
     }
 
-    public List<List<Boolean>> getCells() {
+    public Boolean[][] getCells() {
         return cells;
     }
 
@@ -60,11 +56,12 @@ public class BlocksGrid {
     private boolean isColEmpty(Boolean onLeft) {
         int xMin;
         int xMax;
-        for (int y = 0; y < ctrl.getShape().size(); y++) {
-            xMin = ctrl.getShape().get(y).size();
+        Boolean[][] shape = ctrl.getShape();
+        for (int y = 0; y < shape.length; y++) {
+            xMin = shape[y].length;
             xMax = 0;
-            for (int x = 0; x < ctrl.getShape().get(y).size(); x++) {
-                if (ctrl.getShape().get(y).get(x)) {
+            for (int x = 0; x < shape[y].length; x++) {
+                if (shape[y][x]) {
                     if (x < xMin) xMin = x;
                     if (x > xMax) xMax = x;
                 }
@@ -79,7 +76,7 @@ public class BlocksGrid {
                 if (rightBorder) return false;
                 ctrlX = ctrl.getX() + xMax + 1;
             }
-            Boolean notEmpty = cells.get(ctrl.getY() + y).get(ctrlX);
+            Boolean notEmpty = cells[ctrl.getY() + y][ctrlX];
             if (notEmpty) return false;
         }
         return true;
@@ -122,17 +119,17 @@ public class BlocksGrid {
 
     private boolean isRowEmpty() {
         int yMax;
-        for (int x = 0; x < ctrl.getShape().get(0).size(); x++) {
+        Boolean[][] shape = ctrl.getShape();
+        for (int x = 0; x < shape[0].length; x++) {
             yMax = 0;
-            for (int y = 0; y < ctrl.getShape().size(); y++) {
-                if (ctrl.getShape().get(y).get(x)) {
+            for (int y = 0; y < shape.length; y++) {
+                if (shape[y][x]) {
                     if (y > yMax) yMax = y;
                 }
             }
-            boolean bottomBorder = ctrl.getY() + yMax >= (ROWS_COUNT - 1);
+            boolean bottomBorder = (ctrl.getY() + yMax) >= (ROWS_COUNT - 1);
             if (bottomBorder) return false;
-            int ctrlY = ctrl.getY() + yMax + 1;
-            Boolean notEmpty = cells.get(ctrlY).get(ctrl.getX() + x);
+            Boolean notEmpty = cells[ctrl.getY() + yMax + 1][ctrl.getX() + x];
             if (notEmpty) return false;
         }
         return true;
@@ -144,16 +141,17 @@ public class BlocksGrid {
             ctrl.setY(ctrl.getY() + 1);
         } else {
             ctrl.setStartPosition();
-            ctrl = blocks.get(random.nextInt(blocks.size()));
+            ctrl = blocks[random.nextInt(blocks.length)];
         }
         placeBlock(Boolean.TRUE);
     }
 
     private void placeBlock(Boolean here) {
-        for (int y = 0; y < ctrl.getShape().size(); y++) {
-            for (int x = 0; x < ctrl.getShape().get(y).size(); x++) {
-                if (ctrl.getShape().get(y).get(x)) {
-                    cells.get(y + ctrl.getY()).set(x + ctrl.getX(), here);
+        Boolean[][] shape = ctrl.getShape();
+        for (int y = 0; y < shape.length; y++) {
+            for (int x = 0; x < shape[y].length; x++) {
+                if (shape[y][x]) {
+                    cells[y + ctrl.getY()][x + ctrl.getX()] = here;
                 }
             }
         }

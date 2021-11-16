@@ -1,8 +1,5 @@
 package cz.sp.mg.blocks;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class LineBlock extends Block {
 
     private final Integer length;
@@ -13,13 +10,11 @@ public class LineBlock extends Block {
     }
 
     @Override
-    protected List<List<Boolean>> createShape() {
-        final List<List<Boolean>> rows = new ArrayList<>(1);
-        final List<Boolean> cols = new ArrayList<>(length);
+    protected Boolean[][] createShape() {
+        final Boolean[][] shape = new Boolean[1][length];
         for (int x = 0; x < length; x++) {
-            cols.add(Boolean.TRUE);
+            shape[0][x] = Boolean.TRUE;
         }
-        rows.add(cols);
-        return rows;
+        return shape;
     }
 }

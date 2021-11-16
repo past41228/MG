@@ -1,7 +1,5 @@
 package cz.sp.mg.blocks;
 
-import java.util.List;
-
 public abstract class Block {
 
     public static final int START_X = 2;
@@ -9,13 +7,13 @@ public abstract class Block {
 
     private Integer y;
     private Integer x;
-    private List<List<Boolean>> shape;
+    private Boolean[][] shape;
 
     protected Block() {
         setStartPosition();
     }
 
-    protected abstract List<List<Boolean>> createShape();
+    protected abstract Boolean[][] createShape();
 
     public void setStartPosition() {
         this.x = START_X;
@@ -38,7 +36,7 @@ public abstract class Block {
         this.x = x;
     }
 
-    public List<List<Boolean>> getShape() {
+    public Boolean[][] getShape() {
         if (shape == null) {
             shape = createShape();
         }

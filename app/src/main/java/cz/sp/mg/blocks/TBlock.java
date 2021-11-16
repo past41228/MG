@@ -1,11 +1,11 @@
 package cz.sp.mg.blocks;
 
-import java.util.List;
-
-public class TBlock extends TwoRowsBlock {
+public class TBlock extends Block {
     @Override
-    protected void fillShape(List<List<Boolean>> shape) {
-        fillFirstLine(shape);
-        shape.get(1).set(1, Boolean.TRUE);
+    protected Boolean[][] createShape() {
+        return new Boolean[][] {
+                {Boolean.TRUE, Boolean.TRUE, Boolean.TRUE},
+                {Boolean.FALSE, Boolean.TRUE, Boolean.FALSE}
+        };
     }
 }
