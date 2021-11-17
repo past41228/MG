@@ -1,6 +1,8 @@
 package cz.sp.mg;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 import cz.sp.mg.blocks.Block;
@@ -8,6 +10,7 @@ import cz.sp.mg.blocks.LBlock;
 import cz.sp.mg.blocks.LineBlock;
 import cz.sp.mg.blocks.MirrorLBlock;
 import cz.sp.mg.blocks.SBlock;
+import cz.sp.mg.blocks.SmallLBlock;
 import cz.sp.mg.blocks.SquareBlock;
 import cz.sp.mg.blocks.TBlock;
 import cz.sp.mg.blocks.ZBlock;
@@ -17,30 +20,38 @@ public class BlocksGrid {
     private static final Integer ROWS_COUNT = 15;
     private static final Integer COLS_COUNT = 8;
 
-    private Block ctrl;
     private final Random random;
-    private final Block[] blocks;
+    private final List<Block> blocks;
     private final Boolean[][] cells;
+
+    private Block ctrl;
     private Boolean moveLeft;
 
-    public BlocksGrid() {
-        this.blocks = new Block[] {
-                new LineBlock(3),
-                new TBlock(),
-                new LBlock(),
-                new MirrorLBlock(),
-                new ZBlock(),
-                new SBlock(),
-                new SquareBlock()
-        };
-        this.random = new Random();
-        this.ctrl = blocks[random.nextInt(blocks.length)];
 
+    public BlocksGrid() {
+        this.blocks = createBlocks();
+        this.random = new Random();
+        this.ctrl = blocks.get(random.nextInt(blocks.size()));
         this.cells = new Boolean[ROWS_COUNT][COLS_COUNT];
         for (Boolean[] row : this.cells) {
             Arrays.fill(row, Boolean.FALSE);
         }
         placeBlock(Boolean.TRUE);
+    }
+
+    private List<Block> createBlocks() {
+        List<Block> b = new ArrayList<>();
+        b.add(new LineBlock(1));
+        b.add(new LineBlock(2));
+        b.add(new LineBlock(3));
+        b.add(new LBlock());
+        b.add(new SmallLBlock());
+        b.add(new MirrorLBlock());
+        b.add(new TBlock());
+        b.add(new ZBlock());
+        b.add(new SBlock());
+        b.add(new SquareBlock());
+        return b;
     }
 
     public Boolean[][] getCells() {
@@ -141,7 +152,7 @@ public class BlocksGrid {
             ctrl.setY(ctrl.getY() + 1);
         } else {
             ctrl.setStartPosition();
-            ctrl = blocks[random.nextInt(blocks.length)];
+            ctrl = blocks.get(random.nextInt(blocks.size()));
         }
         placeBlock(Boolean.TRUE);
     }

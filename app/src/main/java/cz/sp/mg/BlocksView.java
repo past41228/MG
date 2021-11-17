@@ -11,8 +11,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceView;
 
-import java.util.List;
-
 public class BlocksView extends SurfaceView implements Runnable {
 
     private static final String LOG_TAG = BlocksView.class.getSimpleName();
