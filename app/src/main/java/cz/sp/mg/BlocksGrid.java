@@ -46,18 +46,18 @@ public class BlocksGrid {
 
     @NonNull
     private List<Block> createBlocks() {
-        List<Block> b = new ArrayList<>();
-        b.add(new LineBlock(1));
-        b.add(new LineBlock(2));
-        b.add(new LineBlock(3));
-        b.add(new LBlock());
-        b.add(new SmallLBlock());
-        b.add(new MirrorLBlock());
-        b.add(new TBlock());
-        b.add(new ZBlock());
-        b.add(new SBlock());
-        b.add(new SquareBlock());
-        return b;
+        List<Block> newBlocks = new ArrayList<>();
+        newBlocks.add(new LineBlock(1));
+        newBlocks.add(new LineBlock(2));
+        newBlocks.add(new LineBlock(3));
+        newBlocks.add(new LBlock());
+        newBlocks.add(new SmallLBlock());
+        newBlocks.add(new MirrorLBlock());
+        newBlocks.add(new TBlock());
+        newBlocks.add(new ZBlock());
+        newBlocks.add(new SBlock());
+        newBlocks.add(new SquareBlock());
+        return newBlocks;
     }
 
     public Boolean[][] getCells() {
@@ -140,20 +140,40 @@ public class BlocksGrid {
     }
 
     public void rotate() {
-        if (rotation && isRowEmpty()) {
-            if (!isColEmpty(Boolean.FALSE)) {
-                if (isColEmpty(Boolean.TRUE)) {
-                    placeBlock(Boolean.FALSE);
+        if (rotation) {
+            placeBlock(Boolean.FALSE);
+            ctrl.rotate(Boolean.TRUE);
+            if (hasNotSpace()) {
+                Integer originalX = ctrl.getX();
+                boolean spaceFound = Boolean.FALSE;
+                for (int x = 0; x < ctrl.getShape()[0].length; x++) {
                     ctrl.setX(ctrl.getX() - 1);
-                } else {
-                    return;
+                    spaceFound = !hasNotSpace();
+                    if (spaceFound) break;
                 }
-            } else {
-                placeBlock(Boolean.FALSE);
+                if (!spaceFound) {
+                    ctrl.setX(originalX);
+                    ctrl.rotate(Boolean.FALSE);
+                }
             }
-            ctrl.rotate();
             placeBlock(Boolean.TRUE);
         }
+    }
+
+    private Boolean hasNotSpace() {
+        Boolean[][] shape = ctrl.getShape();
+        for (int y = 0; y < shape.length; y++) {
+            for (int x = 0; x < shape[y].length; x++) {
+                try {
+                    if (shape[y][x] && getCells()[ctrl.getY() + y][ctrl.getX() + x]) {
+                        return Boolean.TRUE;
+                    }
+                } catch (IndexOutOfBoundsException ignore) {
+                    return Boolean.TRUE;
+                }
+            }
+        }
+        return Boolean.FALSE;
     }
 
     private boolean isRowEmpty() {

@@ -45,12 +45,8 @@ public abstract class Block {
         return rotated != null ? rotated : shape;
     }
 
-    public void rotate() {
-        this.rotated = rotated != null ? rotation(rotated) : rotation(shape);
-    }
-
-    private Boolean[][] rotation(Boolean[][] of) {
-        return rotation(of, Boolean.TRUE);
+    public void rotate(boolean clockwise) {
+        this.rotated = rotated != null ? rotation(rotated, clockwise) : rotation(shape, clockwise);
     }
 
     private Boolean[][] rotation(Boolean[][] of, boolean clockwise) {
