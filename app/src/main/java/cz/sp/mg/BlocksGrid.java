@@ -165,7 +165,7 @@ public class BlocksGrid {
         for (int y = 0; y < shape.length; y++) {
             for (int x = 0; x < shape[y].length; x++) {
                 try {
-                    if (shape[y][x] && getCells()[ctrl.getY() + y][ctrl.getX() + x]) {
+                    if (shape[y][x] && cells[ctrl.getY() + y][ctrl.getX() + x]) {
                         return Boolean.TRUE;
                     }
                 } catch (IndexOutOfBoundsException ignore) {
@@ -201,8 +201,24 @@ public class BlocksGrid {
         } else {
             ctrl.setStartPosition();
             ctrl = blocks.get(random.nextInt(blocks.size()));
+            removeFullRows();
         }
         placeBlock(Boolean.TRUE);
+    }
+
+    private void removeFullRows() {
+        for (int y = 0; y < cells.length; y++) {
+            boolean rowFull = Boolean.TRUE;
+            for (int x = 0; x < cells[y].length; x++) {
+                rowFull = cells[y][x];
+                if (!rowFull) break;
+            }
+            if (rowFull) {
+                for (int shiftY = y; shiftY > 0; shiftY--) {
+                    System.arraycopy(cells[shiftY - 1], 0, cells[shiftY], 0, cells[shiftY].length);
+                }
+            }
+        }
     }
 
     private void placeBlock(Boolean here) {
