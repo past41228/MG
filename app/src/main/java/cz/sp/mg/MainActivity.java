@@ -67,6 +67,20 @@ public class MainActivity extends AppCompatActivity {
                 blocks.resume();
             }
         });
+        findViewById(R.id.rotateButton).setOnTouchListener(new HoldButtonListener() {
+            @Override
+            protected Boolean performAction() {
+                return blocks.isRunning();
+            }
+            @Override
+            protected void onPress() {
+                blocks.rotation();
+            }
+            @Override
+            protected void onRelease() {
+                blocks.fallOnly();
+            }
+        });
     }
 
     @Override

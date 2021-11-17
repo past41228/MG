@@ -1,5 +1,7 @@
 package cz.sp.mg;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,12 +28,15 @@ public class BlocksGrid {
 
     private Block ctrl;
     private Boolean moveLeft;
+    private Boolean rotation;
 
 
     public BlocksGrid() {
         this.blocks = createBlocks();
         this.random = new Random();
         this.ctrl = blocks.get(random.nextInt(blocks.size()));
+        this.moveLeft = null;
+        this.rotation = Boolean.FALSE;
         this.cells = new Boolean[ROWS_COUNT][COLS_COUNT];
         for (Boolean[] row : this.cells) {
             Arrays.fill(row, Boolean.FALSE);
@@ -39,6 +44,7 @@ public class BlocksGrid {
         placeBlock(Boolean.TRUE);
     }
 
+    @NonNull
     private List<Block> createBlocks() {
         List<Block> b = new ArrayList<>();
         b.add(new LineBlock(1));
@@ -113,8 +119,13 @@ public class BlocksGrid {
         moveLeft = Boolean.FALSE;
     }
 
+    public void rotation() {
+        rotation = Boolean.TRUE;
+    }
+
     public void fallOnly() {
         moveLeft = null;
+        rotation = Boolean.FALSE;
     }
 
     public void move() {
@@ -125,6 +136,23 @@ public class BlocksGrid {
             stepLeft();
         } else {
             stepRight();
+        }
+    }
+
+    public void rotate() {
+        if (rotation && isRowEmpty()) {
+            if (!isColEmpty(Boolean.FALSE)) {
+                if (isColEmpty(Boolean.TRUE)) {
+                    placeBlock(Boolean.FALSE);
+                    ctrl.setX(ctrl.getX() - 1);
+                } else {
+                    return;
+                }
+            } else {
+                placeBlock(Boolean.FALSE);
+            }
+            ctrl.rotate();
+            placeBlock(Boolean.TRUE);
         }
     }
 

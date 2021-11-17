@@ -59,6 +59,10 @@ public class BlocksView extends SurfaceView implements Runnable {
         grid.moveRight();
     }
 
+    public void rotation() {
+        grid.rotation();
+    }
+
     public void fallOnly() {
         grid.fallOnly();
     }
@@ -105,6 +109,7 @@ public class BlocksView extends SurfaceView implements Runnable {
             }
             if (++moveDelay > (FPS / moveSpeed)) {
                 grid.move();
+                grid.rotate();
                 moveDelay = 0;
             }
         }
