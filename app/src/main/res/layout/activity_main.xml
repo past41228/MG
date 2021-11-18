@@ -6,14 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/bg"
-        android:src="@drawable/bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
-    />
-
     <cz.sp.mg.BlocksView
         android:id="@+id/blocks"
         android:layout_width="270dp"
