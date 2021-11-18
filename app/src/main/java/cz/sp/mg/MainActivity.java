@@ -60,11 +60,14 @@ public class MainActivity extends AppCompatActivity {
                 blocks.slowDown();
             }
         });
-        findViewById(R.id.upButton).setOnClickListener((View v) -> {
+        View upButton = findViewById(R.id.upButton);
+        upButton.setOnClickListener((View v) -> {
             if (blocks.isRunning()) {
                 blocks.pause();
+                upButton.setBackgroundResource(R.drawable.play);
             } else {
                 blocks.resume();
+                upButton.setBackgroundResource(R.drawable.pause);
             }
         });
         findViewById(R.id.rotateButton).setOnTouchListener(new HoldButtonListener() {

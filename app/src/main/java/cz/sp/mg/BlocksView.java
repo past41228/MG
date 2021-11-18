@@ -17,11 +17,7 @@ public class BlocksView extends SurfaceView implements Runnable {
 
     private static final Integer DEFAULT_SPEED = 1;
     private static final Integer SPEED_MULTIPLIER = 10;
-    private static final Integer STEP = 32;
     private static final Integer FPS = 20;
-
-    private static final Integer BLOCK_SIZE = STEP - 2;
-    private static final Integer OFFSET = 8;
 
 
     private Thread thread;
@@ -31,7 +27,7 @@ public class BlocksView extends SurfaceView implements Runnable {
     private Integer fallSpeed;
     private Integer moveSpeed;
 
-    private Bitmap block;
+    private final Bitmap block;
     private final Paint paint;
     private final BlocksGrid grid;
 
@@ -39,8 +35,8 @@ public class BlocksView extends SurfaceView implements Runnable {
     public BlocksView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setLevelSpeed(DEFAULT_SPEED);
+        setZOrderOnTop(Boolean.TRUE);
         this.block = BitmapFactory.decodeResource(getResources(), R.drawable.block);
-        this.block = Bitmap.createScaledBitmap(block, BLOCK_SIZE, BLOCK_SIZE,false);
         this.paint = new Paint();
         this.grid = new BlocksGrid();
     }
@@ -84,7 +80,7 @@ public class BlocksView extends SurfaceView implements Runnable {
             for (int y = 0; y < cells.length; y++) {
                 for (int x = 0; x < cells[y].length; x++) {
                     if (cells[y][x]) {
-                        canvas.drawBitmap(block, x * STEP + OFFSET, y * STEP + OFFSET, paint);
+                        canvas.drawBitmap(block, x * block.getWidth(), y * block.getHeight(), paint);
                     }
                 }
             }

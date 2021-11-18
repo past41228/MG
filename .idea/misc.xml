@@ -5,9 +5,14 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.43802083333333336" />
         <entry key="app/src/main/res/drawable-anydpi/block.xml" value="0.4390625" />
+        <entry key="app/src/main/res/drawable/arrow.xml" value="0.4390625" />
         <entry key="app/src/main/res/drawable/block.xml" value="0.4390625" />
+        <entry key="app/src/main/res/drawable/border.xml" value="0.4323076923076923" />
         <entry key="app/src/main/res/drawable/button.xml" value="0.4390625" />
+        <entry key="app/src/main/res/drawable/pause.xml" value="0.25885416666666666" />
+        <entry key="app/src/main/res/drawable/play.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/drawable/plus.xml" value="0.4390625" />
+        <entry key="app/src/main/res/drawable/rotate.xml" value="0.25885416666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.48541666666666666" />
       </map>
     </option>

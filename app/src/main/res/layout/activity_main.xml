@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".MainActivity">
 
     <cz.sp.mg.BlocksView
         android:id="@+id/blocks"
-        android:layout_width="270dp"
-        android:layout_height="490dp"
+        android:layout_width="240dp"
+        android:layout_height="450dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,8 +19,20 @@
     />
 
     <ImageView
+        android:src="@drawable/border"
+        android:layout_width="254dp"
+        android:layout_height="464dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.19"
+    />
+
+    <ImageView
         android:id="@+id/leftButton"
-        android:src="@drawable/button"
+        android:src="@drawable/arrow"
+        android:rotation="90"
         android:layout_width="70dp"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +45,8 @@
 
     <ImageView
         android:id="@+id/rightButton"
-        android:src="@drawable/button"
+        android:src="@drawable/arrow"
+        android:rotation="-90"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginStart="70dp"
@@ -43,7 +57,7 @@
 
     <ImageView
         android:id="@+id/downButton"
-        android:src="@drawable/button"
+        android:src="@drawable/arrow"
         android:layout_width="70dp"
         android:layout_height="70dp"
         app:layout_constraintLeft_toRightOf="@+id/leftButton"
@@ -52,7 +66,7 @@
 
     <ImageView
         android:id="@+id/upButton"
-        android:src="@drawable/button"
+        android:background="@drawable/pause"
         android:layout_width="70dp"
         android:layout_height="70dp"
         app:layout_constraintLeft_toRightOf="@+id/leftButton"
@@ -61,7 +75,7 @@
 
     <ImageView
         android:id="@+id/rotateButton"
-        android:src="@drawable/button"
+        android:src="@drawable/rotate"
         android:layout_width="90dp"
         android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -74,9 +88,9 @@
 
     <ImageView
         android:id="@+id/modeButton"
-        android:src="@drawable/button"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:src="@drawable/plus"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_marginEnd="3dp"
         android:layout_marginRight="3dp"
         android:layout_marginTop="3dp"

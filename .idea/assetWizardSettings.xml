@@ -338,7 +338,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/radio_button_unchecked/baseline_radio_button_unchecked_24.xml" />
+                                      <entry key="url" value="file:$USER_HOME$/Android/Sdk/icons/material/materialicons/play_circle_outline/baseline_play_circle_outline_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -348,7 +348,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="button" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="play" />
                           </map>
                         </option>
                       </PersistentState>
