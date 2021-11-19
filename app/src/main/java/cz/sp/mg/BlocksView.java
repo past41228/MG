@@ -100,7 +100,12 @@ public class BlocksView extends SurfaceView implements Runnable {
         while (running) {
             draw();
             if (++fallDelay > (FPS / fallSpeed)) {
-                grid.fall();
+                try {
+                    grid.fall();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, e.getMessage(), e);
+                    pause(); // TODO game over
+                }
                 fallDelay = 0;
             }
             if (++moveDelay > (FPS / moveSpeed)) {

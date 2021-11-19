@@ -66,49 +66,20 @@ public class BlocksGrid {
 
     private void moveHorizontally(Boolean toLeft) {
         placeBlock(Boolean.FALSE);
+        Integer originalX = ctrl.getX();
         ctrl.setX(ctrl.getX() + (toLeft ? -1 : +1));
+        if (hasNotSpace()) {
+            ctrl.setX(originalX);
+        }
         placeBlock(Boolean.TRUE);
     }
 
-    private boolean isColEmpty(Boolean onLeft) {
-        int xMin;
-        int xMax;
-        Boolean[][] shape = ctrl.getShape();
-        for (int y = 0; y < shape.length; y++) {
-            xMin = shape[y].length;
-            xMax = 0;
-            for (int x = 0; x < shape[y].length; x++) {
-                if (shape[y][x]) {
-                    if (x < xMin) xMin = x;
-                    if (x > xMax) xMax = x;
-                }
-            }
-            int ctrlX;
-            if (onLeft) {
-                boolean leftBorder = ctrl.getX() <= 0;
-                if (leftBorder) return false;
-                ctrlX = ctrl.getX() + xMin - 1;
-            } else {
-                boolean rightBorder = ctrl.getX() + xMax >= (COLS_COUNT - 1);
-                if (rightBorder) return false;
-                ctrlX = ctrl.getX() + xMax + 1;
-            }
-            Boolean notEmpty = cells[ctrl.getY() + y][ctrlX];
-            if (notEmpty) return false;
-        }
-        return true;
-    }
-
     private void stepLeft() {
-        if (isColEmpty(Boolean.TRUE)) {
-            moveHorizontally(Boolean.TRUE);
-        }
+        moveHorizontally(Boolean.TRUE);
     }
 
     private void stepRight() {
-        if (isColEmpty(Boolean.FALSE)) {
-            moveHorizontally(Boolean.FALSE);
-        }
+        moveHorizontally(Boolean.FALSE);
     }
 
     public void moveLeft() {
@@ -176,32 +147,20 @@ public class BlocksGrid {
         return Boolean.FALSE;
     }
 
-    private boolean isRowEmpty() {
-        int yMax;
-        Boolean[][] shape = ctrl.getShape();
-        for (int x = 0; x < shape[0].length; x++) {
-            yMax = 0;
-            for (int y = 0; y < shape.length; y++) {
-                if (shape[y][x]) {
-                    if (y > yMax) yMax = y;
-                }
-            }
-            boolean bottomBorder = (ctrl.getY() + yMax) >= (ROWS_COUNT - 1);
-            if (bottomBorder) return false;
-            Boolean notEmpty = cells[ctrl.getY() + yMax + 1][ctrl.getX() + x];
-            if (notEmpty) return false;
-        }
-        return true;
-    }
+    public void fall() throws Exception {
+        placeBlock(Boolean.FALSE);
+        Integer originalY = ctrl.getY();
+        ctrl.setY(ctrl.getY() + 1);
+        if (hasNotSpace()) {
+            ctrl.setY(originalY);
+            placeBlock(Boolean.TRUE);
 
-    public void fall() {
-        if (isRowEmpty()) {
-            placeBlock(Boolean.FALSE);
-            ctrl.setY(ctrl.getY() + 1);
-        } else {
             ctrl.setStartPosition();
             ctrl = blocks.get(random.nextInt(blocks.size()));
             removeFullRows();
+            if (hasNotSpace()) {
+                throw new Exception("GAME OVER");
+            }
         }
         placeBlock(Boolean.TRUE);
     }
