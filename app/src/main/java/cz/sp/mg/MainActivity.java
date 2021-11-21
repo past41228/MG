@@ -3,12 +3,15 @@ package cz.sp.mg;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
     private BlocksView blocks;
+    private TextView level;
+    private TextView score;
 
     @SuppressLint("ClickableViewAccessibility") // TODO https://developer.android.com/guide/topics/ui/accessibility/custom-views#custom-touch-events
     @Override
@@ -16,12 +19,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.blocks = findViewById(R.id.blocks);
-
+        this.level = findViewById(R.id.level);
+        this.score = findViewById(R.id.score);
+        update();
 
         findViewById(R.id.leftButton).setOnTouchListener(new HoldButtonListener() {
             @Override
             protected Boolean performAction() {
-                return blocks.isRunning();
+                return update();
             }
             @Override
             protected void onPress() {
@@ -35,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.rightButton).setOnTouchListener(new HoldButtonListener() {
             @Override
             protected Boolean performAction() {
-                return blocks.isRunning();
+                return update();
             }
             @Override
             protected void onPress() {
@@ -49,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.downButton).setOnTouchListener(new HoldButtonListener() {
             @Override
             protected Boolean performAction() {
-                return blocks.isRunning();
+                return update();
             }
             @Override
             protected void onPress() {
@@ -62,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
         View upButton = findViewById(R.id.upButton);
         upButton.setOnClickListener((View v) -> {
-            if (blocks.isRunning()) {
+            if (update()) {
                 blocks.pause();
                 upButton.setBackgroundResource(R.drawable.play);
             } else {
@@ -73,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.rotateButton).setOnTouchListener(new HoldButtonListener() {
             @Override
             protected Boolean performAction() {
-                return blocks.isRunning();
+                return update();
             }
             @Override
             protected void onPress() {
@@ -84,6 +89,12 @@ public class MainActivity extends AppCompatActivity {
                 blocks.fallOnly();
             }
         });
+    }
+
+    private Boolean update() {
+        level.setText(blocks.getLevel());
+        score.setText(blocks.getScore());
+        return blocks.isRunning();
     }
 
     @Override

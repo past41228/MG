@@ -7,6 +7,56 @@
     android:background="@color/black"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/scoreTitle"
+        android:text="Score"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    />  <!-- paddingStart and paddingEnd to better support right-to-left layouts -->
+
+    <TextView
+        android:id="@+id/score"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/scoreTitle"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <TextView
+        android:id="@+id/levelTitle"
+        android:text="Level"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@+id/level"
+        app:layout_constraintTop_toTopOf="parent"
+    />
+
+    <TextView
+        android:id="@+id/level"
+        android:textSize="40sp"
+        android:textColor="@color/white"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+    />  <!-- paddingStart and paddingEnd to better support right-to-left layouts -->
+
     <cz.sp.mg.BlocksView
         android:id="@+id/blocks"
         android:layout_width="240dp"
@@ -19,6 +69,7 @@
     />
 
     <ImageView
+        android:contentDescription="border"
         android:src="@drawable/border"
         android:layout_width="254dp"
         android:layout_height="464dp"
@@ -31,6 +82,7 @@
 
     <ImageView
         android:id="@+id/leftButton"
+        android:contentDescription="left button"
         android:src="@drawable/arrow"
         android:rotation="90"
         android:layout_width="70dp"
@@ -45,6 +97,7 @@
 
     <ImageView
         android:id="@+id/rightButton"
+        android:contentDescription="right button"
         android:src="@drawable/arrow"
         android:rotation="-90"
         android:layout_width="70dp"
@@ -57,6 +110,7 @@
 
     <ImageView
         android:id="@+id/downButton"
+        android:contentDescription="down button"
         android:src="@drawable/arrow"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -66,6 +120,7 @@
 
     <ImageView
         android:id="@+id/upButton"
+        android:contentDescription="up button"
         android:background="@drawable/pause"
         android:layout_width="70dp"
         android:layout_height="70dp"
@@ -75,6 +130,7 @@
 
     <ImageView
         android:id="@+id/rotateButton"
+        android:contentDescription="rotate button"
         android:src="@drawable/rotate"
         android:layout_width="90dp"
         android:layout_height="90dp"
@@ -88,6 +144,7 @@
 
     <ImageView
         android:id="@+id/modeButton"
+        android:contentDescription="mode button"
         android:src="@drawable/plus"
         android:layout_width="70dp"
         android:layout_height="70dp"

@@ -29,6 +29,7 @@ public class BlocksGrid {
     private Block ctrl;
     private Boolean moveLeft;
     private Boolean rotation;
+    private Integer score;
 
 
     public BlocksGrid() {
@@ -42,6 +43,7 @@ public class BlocksGrid {
             Arrays.fill(row, Boolean.FALSE);
         }
         placeBlock(Boolean.TRUE);
+        this.score = 0;
     }
 
     @NonNull
@@ -62,6 +64,10 @@ public class BlocksGrid {
 
     public Boolean[][] getCells() {
         return cells;
+    }
+
+    public Integer getScore() {
+        return score;
     }
 
     private void moveHorizontally(Boolean toLeft) {
@@ -166,6 +172,7 @@ public class BlocksGrid {
     }
 
     private void removeFullRows() {
+        int fullRows = 0;
         for (int y = 0; y < cells.length; y++) {
             boolean rowFull = Boolean.TRUE;
             for (int x = 0; x < cells[y].length; x++) {
@@ -173,11 +180,13 @@ public class BlocksGrid {
                 if (!rowFull) break;
             }
             if (rowFull) {
+                fullRows++;
                 for (int shiftY = y; shiftY > 0; shiftY--) {
                     System.arraycopy(cells[shiftY - 1], 0, cells[shiftY], 0, cells[shiftY].length);
                 }
             }
         }
+        this.score += (int) Math.pow(10, fullRows);
     }
 
     private void placeBlock(Boolean here) {

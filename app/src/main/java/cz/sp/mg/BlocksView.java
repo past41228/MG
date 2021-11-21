@@ -41,10 +41,19 @@ public class BlocksView extends SurfaceView implements Runnable {
         this.grid = new BlocksGrid();
     }
 
-    public void setLevelSpeed(Integer levelSpeed) {
+    public String getLevel() {
+        setLevelSpeed((grid.getScore() / 10000) + DEFAULT_SPEED);
+        return levelSpeed.toString();
+    }
+
+    public String getScore() {
+        return grid.getScore().toString();
+    }
+
+    private void setLevelSpeed(Integer levelSpeed) {
         this.levelSpeed = levelSpeed;
         this.fallSpeed = levelSpeed;
-        this.moveSpeed = levelSpeed * SPEED_MULTIPLIER;
+        this.moveSpeed = DEFAULT_SPEED * SPEED_MULTIPLIER;
     }
 
     public void moveLeft() {
