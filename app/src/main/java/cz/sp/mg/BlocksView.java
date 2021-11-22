@@ -42,7 +42,7 @@ public class BlocksView extends SurfaceView implements Runnable {
     }
 
     public String getLevel() {
-        setLevelSpeed((grid.getScore() / 10000) + DEFAULT_SPEED);
+        setLevelSpeed((grid.getScore() / 1000) + DEFAULT_SPEED);
         return levelSpeed.toString();
     }
 
