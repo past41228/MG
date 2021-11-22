@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.downButton).setOnTouchListener(new HoldButtonListener() {
             @Override
             protected Boolean performAction() {
-                return update();
+                return blocks.isRunning();
             }
             @Override
             protected void onPress() {
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
         View upButton = findViewById(R.id.upButton);
         upButton.setOnClickListener((View v) -> {
-            if (update()) {
+            if (blocks.isRunning()) {
                 blocks.pause();
                 upButton.setBackgroundResource(R.drawable.play);
             } else {
